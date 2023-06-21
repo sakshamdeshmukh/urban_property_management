@@ -156,3 +156,113 @@ mysql> desc owner;
 
 --------------------------------------------------------------------------------------------------------------------------------
 
+mysql> create  table rent
+    -> (
+    -> rent_id int primary key auto_increment,
+    -> rent_amount double,
+    -> rent_status boolean,
+    -> rent_paid_date date,
+    -> flat_id int,
+    -> constraint fk_rent_flat_id foreign key (flat_id) references flat(flat_id) on delete c
+ascade on update cascade
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc rent;
++----------------+------------+------+-----+---------+----------------+
+| Field          | Type       | Null | Key | Default | Extra          |
++----------------+------------+------+-----+---------+----------------+
+| rent_id        | int        | NO   | PRI | NULL    | auto_increment |
+| rent_amount    | double     | YES  |     | NULL    |                |
+| rent_status    | tinyint(1) | YES  |     | NULL    |                |
+| rent_paid_date | date       | YES  |     | NULL    |                |
+| flat_id        | int        | YES  | MUL | NULL    |                |
++----------------+------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+mysql> create table tenant
+    -> (
+    -> user_id int,
+    -> flat_id int,
+    -> status boolean,
+    -> added_date date,
+    -> leave_date date,
+    -> deposite float,
+    -> rent_id int,
+    -> constraint fk_tenant_user_id foreign key (user_id) references users(user_id) on delete cascade on update cascade,
+    -> constraint fk_tenant_flat_id foreign key (flat_id) references flat(flat_id) on delete cascade on update cascade,
+    -> constraint fk_tenant_rent_id foreign key (rent_id) references rent(rent_id) on delete cascade on update cascade
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc tenant;
++------------+------------+------+-----+---------+-------+
+| Field      | Type       | Null | Key | Default | Extra |
++------------+------------+------+-----+---------+-------+
+| user_id    | int        | YES  | MUL | NULL    |       |
+| flat_id    | int        | YES  | MUL | NULL    |       |
+| status     | tinyint(1) | YES  |     | NULL    |       |
+| added_date | date       | YES  |     | NULL    |       |
+| leave_date | date       | YES  |     | NULL    |       |
+| deposite   | float      | YES  |     | NULL    |       |
+| rent_id    | int        | YES  | MUL | NULL    |       |
++------------+------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+mysql> create table utility
+    -> (
+    -> utility_id int primary key auto_increment,
+    -> flat_id int,
+    -> gas_bill float,
+    -> water_bill float,
+    -> electricity_bill float,
+    -> status boolean,
+    -> added_date date,
+    -> rent_id int,
+    -> constraint fk_utility_flat_id foreign key(flat_id) references flat(flat_id) on delete cascade on update cascade
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> alter table utility add constraint fk_utility_rent_id foreign key(rent_id) references
+ rent(rent_id) on delete cascade on update cascade;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc utility;
++------------------+------------+------+-----+---------+----------------+
+| Field            | Type       | Null | Key | Default | Extra          |
++------------------+------------+------+-----+---------+----------------+
+| utility_id       | int        | NO   | PRI | NULL    | auto_increment |
+| flat_id          | int        | YES  | MUL | NULL    |                |
+| gas_bill         | float      | YES  |     | NULL    |                |
+| water_bill       | float      | YES  |     | NULL    |                |
+| electricity_bill | float      | YES  |     | NULL    |                |
+| status           | tinyint(1) | YES  |     | NULL    |                |
+| added_date       | date       | YES  |     | NULL    |                |
+| rent_id          | int        | YES  | MUL | NULL    |                |
++------------------+------------+------+-----+---------+----------------+
+8 rows in set (0.00 sec)
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+mysql> show tables;
++-----------------------+
+| Tables_in_upm_project |
++-----------------------+
+| admin                 |
+| building              |
+| employee              |
+| flat                  |
+| owner                 |
+| rent                  |
+| tenant                |
+| users                 |
+| utility               |
++-----------------------+
+9 rows in set (0.00 sec)
+
+---------------------------------------------------------------------------------------------------------------------------------------
