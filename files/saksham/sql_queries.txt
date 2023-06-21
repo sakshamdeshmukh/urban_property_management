@@ -1,0 +1,94 @@
+ 
+create table users
+ (
+    user_id int primary key auto_increment,
+    email varchar(50) unique,
+    contact varchar(50) unique,
+    password varchar(50),
+    per_address varchar(50),
+    img blob,
+    role varchar(50)
+);
+
+
+
+create table employee
+(
+user_id int,
+designation varchar(50),
+building_id int,
+salary float,
+working_status boolean,
+added_date date,
+constraint fk_user_id foreign key (user_id)
+references users(user_id)
+on delete cascade
+on update cascade  
+);
+
+
+
+create table building
+(
+building_id int primary key,
+name varchar(50),
+address varchar(200),
+phone varchar(50) unique,
+make_year year,
+added_date date
+);
+
+
+-------------added foreign key on building id in empolyee----------
+
+alter table employee 
+add 
+constraint fk_building_emp 
+foreign key (building_id) 
+references building(building_id) 
+on delete cascade 
+on update cascade;
+
+
+
+--------------created admin table with two foreign keys-----------
+
+create table admin
+(
+user_id int,
+building_id int,
+added_date date,
+constraint fk_admin_users
+foreign key (user_id)
+references users(user_id)
+on delete cascade
+on update cascade,
+constraint fk_admin_building
+foreign key (building_id)
+references building(building_id)
+on delete cascade
+on update cascade
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
