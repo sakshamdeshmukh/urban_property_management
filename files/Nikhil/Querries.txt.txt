@@ -1,0 +1,52 @@
+create table users(
+user_id int primary key auto_increment,
+name varchar(45),
+email_id varchar(45) unique,
+contact varchar(45) unique,
+password varchar(45),
+per_address varchar(45),
+img blob,
+role varchar(45)
+);
+
+
+create table employee(
+user_id int,
+designation varchar(45),
+building_id int,
+salary float,
+working_status boolean,
+added_date date,
+constraint fk_employee_users foreign key(user_id)
+references users(user_id) 
+on delete cascade 
+on update cascade
+);
+
+create table building(
+building_id int primary key auto_increment,
+name varchar(45),
+address varchar(200),
+phone varchar(45) unique,
+make_year year,
+added_date date
+);
+
+
+alter table employee
+add 
+constraint fk_building_employee foreign key(building_id) 
+references building(building_id) 
+on delete cascade 
+on update cascade;
+
+select * from information_schema.key_column_usage where table_name='employee';
+
+employee_ibfk_1 ;
+
+alter table employee drop foreign key employee_ibfk_1;
+
+
+create table admin(
+
+ 
