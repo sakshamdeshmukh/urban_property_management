@@ -1,0 +1,158 @@
+mysql> use upm_project;
+Database changed
+mysql> create tables(
+    -> users^Z^C
+mysql> create table users
+    -> (
+    -> user_id int primary key,
+    -> email varchar(50) unique,
+    -> contact varchar(50) unique,
+    -> password varchar(50),
+    -> per_address varchar(50),
+    -> img blob,
+    -> role varchar(50)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc users;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| user_id     | int         | NO   | PRI | NULL    |       |
+| email       | varchar(50) | YES  | UNI | NULL    |       |
+| contact     | varchar(50) | YES  | UNI | NULL    |       |
+| password    | varchar(50) | YES  |     | NULL    |       |
+| per_address | varchar(50) | YES  |     | NULL    |       |
+| img         | blob        | YES  |     | NULL    |       |
+| role        | varchar(50) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+------------------------------------------------------------------------------------------------------------------
+
+mysql> create table building
+    -> (
+    -> building_id int primary key,
+    -> name varchar(50),
+    -> address varchar(50),
+    -> phone varchar(50) unique,
+    -> make_year date,
+    -> added_date date
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc building;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| building_id | int         | NO   | PRI | NULL    |       |
+| name        | varchar(50) | YES  |     | NULL    |       |
+| address     | varchar(50) | YES  |     | NULL    |       |
+| phone       | varchar(50) | YES  | UNI | NULL    |       |
+| make_year   | date        | YES  |     | NULL    |       |
+| added_date  | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+----------------------------------------------------------------------------------------------------------------------------
+
+create table employee
+     (
+          user_id int,
+          designation varchar(50),
+          building_id int,
+          salary float,
+          working_status boolean,
+          added_date date,
+          FOREIGN KEY(user_id) REFERENCES users(user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+          FOREIGN KEY(building_id) REFERENCES building(building_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+          );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc employee;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| user_id        | int         | YES  | MUL | NULL    |       |
+| designation    | varchar(50) | YES  |     | NULL    |       |
+| building_id    | int         | YES  | MUL | NULL    |       |
+| salary         | float       | YES  |     | NULL    |       |
+| working_status | tinyint(1)  | YES  |     | NULL    |       |
+| added_date     | date        | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+------------------------------------------------------------------------------------------------------------------
+mysql> create table admin
+    -> (
+    -> user_id int ,
+    -> building_id int,
+    -> added_date date,
+    -> FOREIGN KEY (user_id) REFERENCES building(building_id) ON DELETE CASCADE ON UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql>
+mysql> DESC admin;
++-------------+------+------+-----+---------+-------+
+| Field       | Type | Null | Key | Default | Extra |
++-------------+------+------+-----+---------+-------+
+| user_id     | int  | YES  | MUL | NULL    |       |
+| building_id | int  | YES  |     | NULL    |       |
+| added_date  | date | YES  |     | NULL    |       |
++-------------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table admin add foreign key (building_id) references building(building_id) on delete cascade on update cascade;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+------------------------------------------------------------------------------------------------------------------
+
+mysql> create table flat
+    ->     (
+    -> flat_id int primary key,
+    -> floor_no int,
+    -> building_id int,
+    -> status boolean,
+    -> flat_type varchar(50),
+    -> FOREIGN KEY(building_id) REFERENCES building(building_id) ON DELETE CASCADE ON UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc flat;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| flat_id     | int         | NO   | PRI | NULL    |       |
+| floor_no    | int         | YES  |     | NULL    |       |
+| building_id | int         | YES  | MUL | NULL    |       |
+| status      | tinyint(1)  | YES  |     | NULL    |       |
+| flat_type   | varchar(50) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+---------------------------------------------------------------------------------------------------------------------------
+
+mysql> create table owner
+    -> (
+    -> user_id int,
+    -> added_date date,
+    -> flat_id int,
+    -> foreign key (user_id) references users(user_id) on delete cascade on update cascade,
+    -> foreign key (flat_id) references flat(flat_id) on delete cascade on update cascade
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc owner;
++------------+------+------+-----+---------+-------+
+| Field      | Type | Null | Key | Default | Extra |
++------------+------+------+-----+---------+-------+
+| user_id    | int  | YES  | MUL | NULL    |       |
+| added_date | date | YES  |     | NULL    |       |
+| flat_id    | int  | YES  | MUL | NULL    |       |
++------------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+--------------------------------------------------------------------------------------------------------------------------------
+
