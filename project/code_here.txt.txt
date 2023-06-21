@@ -1,0 +1,10 @@
+ create table users
+ (
+    user_id int primary key,
+    email varchar(50) unique,
+    contact varchar(50) unique,
+    password varchar(50),
+    per_address varchar(50),
+    img blob,
+    role varchar(50)
+);
