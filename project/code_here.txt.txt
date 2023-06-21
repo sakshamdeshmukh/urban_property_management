@@ -82,3 +82,77 @@ mysql> desc employee;
 | added_date     | date        | YES  |     | NULL    |       |
 +----------------+-------------+------+-----+---------+-------+
 6 rows in set (0.00 sec)
+------------------------------------------------------------------------------------------------------------------
+mysql> create table admin
+    -> (
+    -> user_id int ,
+    -> building_id int,
+    -> added_date date,
+    -> FOREIGN KEY (user_id) REFERENCES building(building_id) ON DELETE CASCADE ON UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql>
+mysql> DESC admin;
++-------------+------+------+-----+---------+-------+
+| Field       | Type | Null | Key | Default | Extra |
++-------------+------+------+-----+---------+-------+
+| user_id     | int  | YES  | MUL | NULL    |       |
+| building_id | int  | YES  |     | NULL    |       |
+| added_date  | date | YES  |     | NULL    |       |
++-------------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table admin add foreign key (building_id) references building(building_id) on delete cascade on update cascade;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+------------------------------------------------------------------------------------------------------------------
+
+mysql> create table flat
+    ->     (
+    -> flat_id int primary key,
+    -> floor_no int,
+    -> building_id int,
+    -> status boolean,
+    -> flat_type varchar(50),
+    -> FOREIGN KEY(building_id) REFERENCES building(building_id) ON DELETE CASCADE ON UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc flat;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| flat_id     | int         | NO   | PRI | NULL    |       |
+| floor_no    | int         | YES  |     | NULL    |       |
+| building_id | int         | YES  | MUL | NULL    |       |
+| status      | tinyint(1)  | YES  |     | NULL    |       |
+| flat_type   | varchar(50) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+---------------------------------------------------------------------------------------------------------------------------
+
+mysql> create table owner
+    -> (
+    -> user_id int,
+    -> added_date date,
+    -> flat_id int,
+    -> foreign key (user_id) references users(user_id) on delete cascade on update cascade,
+    -> foreign key (flat_id) references flat(flat_id) on delete cascade on update cascade
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc owner;
++------------+------+------+-----+---------+-------+
+| Field      | Type | Null | Key | Default | Extra |
++------------+------+------+-----+---------+-------+
+| user_id    | int  | YES  | MUL | NULL    |       |
+| added_date | date | YES  |     | NULL    |       |
+| flat_id    | int  | YES  | MUL | NULL    |       |
++------------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+--------------------------------------------------------------------------------------------------------------------------------
+
