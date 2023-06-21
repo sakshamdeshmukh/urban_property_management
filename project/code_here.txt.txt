@@ -27,3 +27,58 @@ mysql> desc users;
 | role        | varchar(50) | YES  |     | NULL    |       |
 +-------------+-------------+------+-----+---------+-------+
 7 rows in set (0.00 sec)
+------------------------------------------------------------------------------------------------------------------
+
+mysql> create table building
+    -> (
+    -> building_id int primary key,
+    -> name varchar(50),
+    -> address varchar(50),
+    -> phone varchar(50) unique,
+    -> make_year date,
+    -> added_date date
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc building;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| building_id | int         | NO   | PRI | NULL    |       |
+| name        | varchar(50) | YES  |     | NULL    |       |
+| address     | varchar(50) | YES  |     | NULL    |       |
+| phone       | varchar(50) | YES  | UNI | NULL    |       |
+| make_year   | date        | YES  |     | NULL    |       |
+| added_date  | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+----------------------------------------------------------------------------------------------------------------------------
+
+create table employee
+     (
+          user_id int,
+          designation varchar(50),
+          building_id int,
+          salary float,
+          working_status boolean,
+          added_date date,
+          FOREIGN KEY(user_id) REFERENCES users(user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+          FOREIGN KEY(building_id) REFERENCES building(building_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+          );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc employee;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| user_id        | int         | YES  | MUL | NULL    |       |
+| designation    | varchar(50) | YES  |     | NULL    |       |
+| building_id    | int         | YES  | MUL | NULL    |       |
+| salary         | float       | YES  |     | NULL    |       |
+| working_status | tinyint(1)  | YES  |     | NULL    |       |
+| added_date     | date        | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
