@@ -1,0 +1,131 @@
+
+
+CREATE TABLE users
+(
+	[user_id] INT NOT NULL PRIMARY KEY IDENTITY ,
+    [name] VARCHAR(50) NULL, 
+    [email_id] VARCHAR(50) NULL UNIQUE, 
+    [contact] VARCHAR(50) NULL UNIQUE, 
+    [password] VARCHAR(50) NULL, 
+    [per_address] VARCHAR(MAX) NULL, 
+    [img] VARBINARY(MAX) NULL, 
+    [role] VARCHAR(50) NULL,
+	
+)
+
+
+
+CREATE TABLE building
+(
+	[building_id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [name] VARCHAR(50) NULL, 
+    [address] VARCHAR(MAX) NULL, 
+    [phone] VARCHAR(50) NULL UNIQUE, 
+    [make_year] DATE NULL, 
+    [added_date] DATE NULL
+)
+
+
+CREATE TABLE [dbo].[flat] (
+    [flat_id]  INT   IDENTITY (1, 1) NOT NULL,
+    [florr_no] INT  NULL,
+    [flat_no]  INT  NULL,
+    [building_id] INT  NULL,
+    [status]   TINYINT  NULL,
+    [flat_type]   VARCHAR (50) NULL,
+    PRIMARY KEY CLUSTERED ([flat_id] ASC),
+    FOREIGN KEY ([building_id]) REFERENCES [dbo].[building] ([building_id])
+	ON UPDATE CASCADE
+	ON DELETE CASCADE
+);
+
+
+CREATE TABLE [dbo].[rent] (
+    [rent_id]     BIGINT     IDENTITY (10000000, 1) NOT NULL,
+    [rent_amount] FLOAT (53) NULL,
+    [rent_status] TINYINT    NULL,
+    [paid_date]   DATE       NULL,
+    [flat_id]     INT        NULL,
+    PRIMARY KEY CLUSTERED ([rent_id] ASC),
+    FOREIGN KEY ([flat_id]) REFERENCES [dbo].[flat] ([flat_id]) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+
+
+CREATE TABLE [dbo].[utility] (
+    [utility_id]       INT        IDENTITY (10000, 1) NOT NULL,
+    [flat_id]          INT        NULL,
+    [gas_bill]         FLOAT (53) NULL,
+    [water_bill]       FLOAT (53) NULL,
+    [electricity_bill] FLOAT (53) NULL,
+    [status]           TINYINT    NULL,
+    [added_date]       DATE       NULL,
+    [rent_id]          BIGINT     NULL,
+    PRIMARY KEY CLUSTERED ([utility_id] ASC),
+    FOREIGN KEY ([rent_id]) REFERENCES [dbo].[rent] ([rent_id]),
+   FOREIGN KEY ([flat_id]) REFERENCES [dbo].[flat] ([flat_id]) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+
+CREATE TABLE admin
+(
+    [user_id] INT  NULL, 
+    [building_id] INT  NULL unique, 
+    [added_date] DATE NULL, 
+    FOREIGN KEY ([building_id]) REFERENCES [dbo].[building] ([building_id]) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id]) ON UPDATE CASCADE ON DELETE CASCADE
+	
+)
+
+
+
+
+
+CREATE TABLE employee
+(
+	[user_id] INT NULL UNIQUE, 
+    [designation] VARCHAR(50) NULL, 
+    [building_id] INT NULL, 
+    [salary] FLOAT NULL, 
+    [status] TINYINT NULL, 
+    [added_date] DATE NULL 
+	FOREIGN KEY ([building_id]) REFERENCES [dbo].[building] ([building_id]) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id]) ON UPDATE CASCADE ON DELETE CASCADE
+)
+
+
+
+CREATE TABLE owner
+(
+	[user_id] INT NULL , 
+    [flat_id] INT NULL UNIQUE, 
+    [added_date] DATE NULL
+	 FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id]) ON UPDATE CASCADE ON DELETE CASCADE,
+	 FOREIGN KEY ([flat_id]) REFERENCES [dbo].[flat] ([flat_id]) ON DELETE CASCADE ON UPDATE CASCADE
+)
+
+
+
+CREATE TABLE tenant
+(
+	[user_id] INT NOT NULL UNIQUE, 
+    [flat_id] INT NOT NULL UNIQUE, 
+    [status] TINYINT NULL, 
+    [added_date] DATE NULL, 
+    [leave_date] DATE NULL, 
+    [deposit] FLOAT NULL, 
+    [rent_id] BIGINT NULL UNIQUE
+	PRIMARY KEY (user_id,flat_id),
+	 FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id]) ON UPDATE CASCADE ON DELETE CASCADE,
+	 FOREIGN KEY ([flat_id]) REFERENCES [dbo].[flat] ([flat_id]) ON DELETE CASCADE ON UPDATE CASCADE,
+	  FOREIGN KEY ([rent_id]) REFERENCES [dbo].[rent] ([rent_id])
+)
+
+
+
+
+
+
+
