@@ -1,0 +1,203 @@
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+| users |
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+ CREATE TABLE `users` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `email_id` varchar(50) DEFAULT NULL,
+  `contact` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `per_address` varchar(50) DEFAULT NULL,
+  `img` blob,
+  `role` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
+  UNIQUE KEY `email_id_UNIQUE` (`email_id`),
+  UNIQUE KEY `contact_UNIQUE` (`contact`)
+) 
+
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+| building |
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+ CREATE TABLE `building` (
+  `building_id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `address` varchar(50) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `make_year` date DEFAULT NULL,
+  `added_date` date DEFAULT NULL,
+  PRIMARY KEY (`building_id`),
+  UNIQUE KEY `building_id_UNIQUE` (`building_id`),
+  UNIQUE KEY `phone_UNIQUE` (`phone`)
+) 
+
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+| flat  | 
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+CREATE TABLE `flat` (
+  `flat_id` int NOT NULL AUTO_INCREMENT,
+  `floor_no` int DEFAULT NULL,
+  `flat_no` int DEFAULT NULL,
+  `building_id` int DEFAULT NULL,
+  `status` tinyint DEFAULT NULL,
+  `flat_type` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`flat_id`),
+  UNIQUE KEY `flat_id_UNIQUE` (`flat_id`),
+  KEY `fk_building_id_idx` (`building_id`),
+  CONSTRAINT `fk_building_id` FOREIGN KEY (`building_id`) REFERENCES `building` (`building_id`) ON DELETE CASCADE ON UPDATE CASCADE
+)
+
+ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+| rent  |
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+ CREATE TABLE `rent` (
+  `rent_id` bigint NOT NULL DEFAULT '10000000',
+  `rent_amount` float DEFAULT NULL,
+  `rent_status` tinyint DEFAULT NULL,
+  `paid_date` date DEFAULT NULL,
+  `flat_id` int DEFAULT NULL,
+  PRIMARY KEY (`rent_id`),
+  UNIQUE KEY `rent_id_UNIQUE` (`rent_id`),
+  KEY `fk_flat_id_idx` (`flat_id`),
+  CONSTRAINT `fk_flat_id` FOREIGN KEY (`flat_id`) REFERENCES `flat` (`flat_id`) ON DELETE CASCADE ON UPDATE CASCADE
+)
+
+ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+| utility |
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+ CREATE TABLE `utility` (
+  `utility_id` int NOT NULL DEFAULT '10000',
+  `flat_id` int DEFAULT NULL,
+  `gas_bill` float DEFAULT NULL,
+  `water_bill` float DEFAULT NULL,
+  `electricity_bill` float DEFAULT NULL,
+  `status` tinyint DEFAULT NULL,
+  `added_date` date DEFAULT NULL,
+  `rent_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`utility_id`),
+  UNIQUE KEY `utility_id_UNIQUE` (`utility_id`),
+  KEY `fk_flat_id_idx` (`flat_id`),
+  KEY `fk_rent_id_idx` (`rent_id`),
+  CONSTRAINT `fk_flat1_id` FOREIGN KEY (`flat_id`) REFERENCES `flat` (`flat_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_rent1_id` FOREIGN KEY (`rent_id`) REFERENCES `rent` (`rent_id`) ON DELETE CASCADE ON UPDATE CASCADE
+)
+
+ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+| admin |
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+ CREATE TABLE `admin` (
+  `user_id` int DEFAULT NULL,
+  `building_id` int DEFAULT NULL,
+  `added_date` date DEFAULT NULL,
+  KEY `fk_userid_idx` (`user_id`),
+  KEY `fk_buildingid_idx` (`building_id`),
+  CONSTRAINT `fk_building__id` FOREIGN KEY (`building_id`) REFERENCES `building` (`building_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_user__id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) 
+
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+| employee |
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+ CREATE TABLE `employee` (
+  `user_id` int DEFAULT NULL,
+  `designation` varchar(45) DEFAULT NULL,
+  `building_id` int DEFAULT NULL,
+  `salary` float DEFAULT NULL,
+  `status` tinyint DEFAULT NULL,
+  `added_date` date DEFAULT NULL,
+  KEY `fk_userid_idx` (`user_id`),
+  KEY `fk_buildingid_idx` (`building_id`),
+  CONSTRAINT `fk_buildingid` FOREIGN KEY (`building_id`) REFERENCES `building` (`building_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_userid` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+)
+
+
+ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+| owner |
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+ CREATE TABLE `owner` (
+  `user_id` int DEFAULT NULL,
+  `added_date` date DEFAULT NULL,
+  `flat_id` int DEFAULT NULL,
+  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
+  UNIQUE KEY `flat_id_UNIQUE` (`flat_id`),
+  CONSTRAINT `flatid_fk` FOREIGN KEY (`flat_id`) REFERENCES `flat` (`flat_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `userId_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) 
+
+
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+| tenant | 
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+CREATE TABLE `tenant` (
+  `user_id` int DEFAULT NULL,
+  `flat_id` int DEFAULT NULL,
+  `status` tinyint DEFAULT NULL,
+  `added_date` date DEFAULT NULL,
+  `leave_date` date DEFAULT NULL,
+  `deposite` float DEFAULT NULL,
+  `rent_id` bigint DEFAULT NULL,
+  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
+  UNIQUE KEY `flat_id_UNIQUE` (`flat_id`),
+  UNIQUE KEY `rent_id_UNIQUE` (`rent_id`),
+  CONSTRAINT `fk_flatid_fk` FOREIGN KEY (`flat_id`) REFERENCES `flat` (`flat_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_rentid_fk` FOREIGN KEY (`rent_id`) REFERENCES `rent` (`rent_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_userid_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) 
+
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
