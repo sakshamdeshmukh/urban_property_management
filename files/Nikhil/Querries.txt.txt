@@ -23,6 +23,8 @@ on delete cascade
 on update cascade
 );
 
+-------------------------------------------------------------------------------
+
 create table building(
 building_id int primary key auto_increment,
 name varchar(45),
@@ -32,6 +34,7 @@ make_year year,
 added_date date
 );
 
+--------------------------------------------------------------------------------
 
 alter table employee
 add 
@@ -40,13 +43,56 @@ references building(building_id)
 on delete cascade 
 on update cascade;
 
+---------------------------------------------------------------------------------
+
 select * from information_schema.key_column_usage where table_name='employee';
 
-employee_ibfk_1 ;
+---------------------------------------------------------------------------------
+
+//  employee_ibfk_1 ;(bydefault foreign key name given )
+
+----------------------------------------------------------------------------------
 
 alter table employee drop foreign key employee_ibfk_1;
 
+-----------------------------------------------------------------------------------
 
 create table admin(
+user_id int,
+building_id int,
+added_date date,
+constraint fk_admin_users foreign key(user_id) 
+references users(user_id) on delete cascade on update cascade,
+constraint fk_admin_building foreign key(building_id)
+references building(building_id) on delete cascade on update cascade
+);
+
+-------------------------------------------------------------------------------------
+
+create table owner(
+user_id int,
+added_date date,
+flat_id int auto_increment
+
+-------------------------------------------------------------------------------------
+
+create table flat
+(
+flat_id int,
+floor_no varchar(4),
+flat_no varchar(10),
+building_id int,
+flat_status boolean,
+flat_type varchar(25),
+constraint fk_flat_building foreign key(building_id)
+references building(building_id) on delete cascade on update cascade
+);
+
+---------------------------------------------------------------------------------------
+
+alter table flat modify flat_id int not null auto_increment primary key;  
+
+----------------------------------------------------------------------------------------
+
 
  
