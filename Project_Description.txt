@@ -2,3 +2,10 @@ PROJECT DESCRIPTION
 
 
 This project is developed for a reputed construction company in the city. This company built many apartments in this city. Presently they maintain all records manually, to keep track of sales, receipts, Tenants,deposits, Employee Management etc. The main aim of the project is to provide utility to maintain day to day operations of apartments. This software help them to store all transactions electronically in a system, which in turn saves lot time, money and energy.
+
+
+
+------------------------------------------
+v2.0
+
+The main objective for this project is to manage details of buildings, employees, flat owners, tenants, bills, registrations. The purpose of this project is to build an application program to reduce the manual work and track required details for Builders and Flat Owners. It also deals with monitoring information and transactions of Payments done by Tenants and Employee salaries.

@@ -72,9 +72,25 @@ on update cascade
 
 
 
+create table flat 
+(
+flat_id int,
+floor_no int,
+flat_no int,
+building_id int,
+status boolean,
+flat_type varchar(50),
+constraint fk_flat_building
+foreign key (building_id)
+references building(building_id)
+on delete cascade
+on update cascade
+);
 
 
-
+alter table flat 
+modify flat_id int not null 
+auto_increment primary key; 
 
 
 
