@@ -1,0 +1,24 @@
+CREATE TABLE [dbo].[user]
+(
+	[userid] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [username] VARCHAR(50) NULL, 
+    [email] VARCHAR(50) NULL, 
+    [mobile] VARCHAR(50) NULL, 
+    [password] VARCHAR(50) NULL, 
+    [role] VARCHAR(50) NULL, 
+    CONSTRAINT [AK_user_email] UNIQUE ([email]), 
+    CONSTRAINT [AK_user_mobile] UNIQUE ([mobile])
+)
+
+
+
+CREATE TABLE [dbo].[book]
+(
+	[bookid] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [bookname] VARCHAR(50) NULL, 
+    [author] VARCHAR(50) NULL, 
+    [price] FLOAT NULL, 
+    [userid] INT NULL, 
+    CONSTRAINT [FK_user_Tobook] FOREIGN KEY ([userid]) REFERENCES [user]([userid]) on delete cascade on update cascade
+)
+
