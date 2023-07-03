@@ -8,7 +8,7 @@ function Login() {
     const [Credentials,setCredentials]=useState({email:"",Password:""});
     const option=['Admin','Owner','Tenent','Employee'];
     const onOptionChange=(event)=>{
-        history.push("/"+event.target.value);
+        //history.push("/"+event.target.value);
     }
 
     const onTextChange=(args)=>
