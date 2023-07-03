@@ -62,7 +62,7 @@ function Login() {
                         Username :
                     </td>
                     <td>
-                        <input className='inputBox' type='text' onChange={onTextChange} value={Credentials.email} name='email'></input>
+                        <input placeholder='Enter username' className='inputBox' type='text' onChange={onTextChange} value={Credentials.email} name='email'></input>
                     </td>
                 </tr>
                 <br/>
@@ -71,7 +71,7 @@ function Login() {
                         Password :
                     </td>
                     <td>
-                    <input className='inputBox' type='password' onChange={onTextChange} value={Credentials.Password} name='Password'></input>
+                    <input placeholder='Enter password' className='inputBox' type='password' onChange={onTextChange} value={Credentials.Password} name='Password'></input>
                   </td>
                 </tr><br/>
                 <tr>
