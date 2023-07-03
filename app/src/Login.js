@@ -19,7 +19,8 @@ function Login() {
     }
 
     const history=useHistory();
-    const SignIn=()=>{
+
+    const SignIn=(args)=>{
         var helper=new XMLHttpRequest();
         helper.onreadystatechange=()=>{
 
@@ -80,7 +81,7 @@ function Login() {
                 </tr>
                 <br></br>
                 <tr>
-                <select onChange={onOptionChange} className='inputBox'>
+                <select onChange={SignIn} className='inputBox'>
                 <option>Please choose one option</option>
                 {option.map((option,index)=>
                 {
