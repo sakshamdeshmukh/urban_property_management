@@ -1,0 +1,72 @@
+
+.background{
+    background-color: #C5DFF8;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.servcss{
+    background-color: rgb(249, 162, 162);
+    border: 3px solid rgb(75, 75, 75);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.navbar{
+    background-color: rgb(61, 122, 191);
+   
+}
+
+.registerDetails{
+    
+    border-radius: 15px;
+    width: 400px;
+    padding: 25px;
+    font-family: 'Inter', sans-serif;
+    font-size: medium;
+    
+    color: rgb(0, 0, 0);
+
+
+
+background: rgba(255, 255, 255, 0.25);
+box-shadow: 0 8px 32px 0 rgba(95, 103, 217, 0.37);
+backdrop-filter: blur( 4px );
+-webkit-backdrop-filter: blur( 4px );
+border-radius: 10px;
+border: 1px solid rgba(253, 253, 253, 0.18);
+}
+.logo{
+    height: 300px;
+    width: 300px;
+}
+.loginButton{
+    border-radius: 5px;
+    height: 40px;
+    width: 255px;
+    background-color: #7895CB;
+    
+}
+.loginButton:hover{
+    background-color: #4A55A2;
+    transition: 0.5s;
+}
+
+
+.tablequotes{
+    margin-top: 70px;
+    background-color: rgb(246, 246, 246);
+    border: 1px solid black;
+    border-radius: 10px;
+    width:600px;
+    padding: 20px;
+}
+
+.inputBox{
+    border-radius: 5px;
+    border: 0;
+    margin-left: 5px;
+    padding: 5px;
+}
