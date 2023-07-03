@@ -5,11 +5,24 @@ import './common.css'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Logo from './assets/icons/logo black line.png'
 function Login() {
+<<<<<<< HEAD
     const [Credentials, setCredentials] = useState({ email: "", Password: "" });
 
     const onTextChange = (args) => {
         var copyofCredentials = { ...Credentials };
         copyofCredentials[args.target.name] = args.target.value;
+=======
+    const [Credentials,setCredentials]=useState({email:"",Password:""});
+    const option=['Admin','Owner','Tenent','Employee'];
+    const onOptionChange=(event)=>{
+        history.push("/"+event.target.value);
+    }
+
+    const onTextChange=(args)=>
+    {
+        var copyofCredentials={...Credentials};
+        copyofCredentials[args.target.name]=args.target.value;
+>>>>>>> ceb6ac38a2132310663319c814a45057a0f61ff7
         setCredentials(copyofCredentials);
     }
 
@@ -45,6 +58,7 @@ function Login() {
         <div className='background'>
 
             <center>
+<<<<<<< HEAD
                 <div className='registerDetails'>
 
                     <center>
@@ -82,6 +96,55 @@ function Login() {
                         </table>
                     </center>
                 </div>
+=======
+        <div className='registerDetails'>
+        
+        <center>
+            <table className='table-responsive'>
+                <center>
+                    <div>
+                    <img src={Logo} alt='' className='logo' />
+                    </div>
+                <tr>
+                    <td>
+                        Username :
+                    </td>
+                    <td>
+                        <input placeholder='Enter username' className='inputBox' type='text' onChange={onTextChange} value={Credentials.email} name='email'></input>
+                    </td>
+                </tr>
+                <br/>
+                <tr>
+                    <td>
+                        Password :
+                    </td>
+                    <td>
+                    <input placeholder='Enter password' className='inputBox' type='password' onChange={onTextChange} value={Credentials.Password} name='Password'></input>
+                  </td>
+                </tr>
+                <br></br>
+                <tr>
+                <select onChange={onOptionChange} className='inputBox'>
+                <option>Please choose one option</option>
+                {option.map((option,index)=>
+                {
+                    return <option key={index}>
+                        {option}
+                    </option>
+                })}
+            </select>
+                </tr><br/>
+                <tr>
+                    <td colSpan={2}>
+                        <button className='loginButton' onClick={SignIn}>
+                            Login
+                        </button><br/><br/>
+                        Dont Have Account <Link to={"/Register"}>Register Here</Link>
+                    </td>
+                </tr>
+                </center>
+            </table>
+>>>>>>> ceb6ac38a2132310663319c814a45057a0f61ff7
             </center>
         </div>
     );
