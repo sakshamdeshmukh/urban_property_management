@@ -6,7 +6,11 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Logo from './assets/icons/logo black line.png'
 function Login() {
     const [Credentials,setCredentials]=useState({email:"",Password:""});
-    
+    const option=['Admin','Owner','Tenent','Employee'];
+    const onOptionChange=(event)=>{
+        history.push("/"+event.target.value);
+    }
+
     const onTextChange=(args)=>
     {
         var copyofCredentials={...Credentials};
@@ -73,6 +77,18 @@ function Login() {
                     <td>
                     <input placeholder='Enter password' className='inputBox' type='password' onChange={onTextChange} value={Credentials.Password} name='Password'></input>
                   </td>
+                </tr>
+                <br></br>
+                <tr>
+                <select onChange={onOptionChange} className='inputBox'>
+                <option>Please choose one option</option>
+                {option.map((option,index)=>
+                {
+                    return <option key={index}>
+                        {option}
+                    </option>
+                })}
+            </select>
                 </tr><br/>
                 <tr>
                     <td colSpan={2}>
