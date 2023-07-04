@@ -1,14 +1,21 @@
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import './common.css'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Logo from './assets/icons/logo black line.png'
+
 function Login() {
     const [Credentials,setCredentials]=useState({email:"",Password:""});
+    
     const option=['Admin','Owner','Tenent','Employee'];
+    
+    const [Route,setRoute]=useState("");
+
+    const [message,setMessage]=useState("");
+    
     const onOptionChange=(event)=>{
-        //history.push("/"+event.target.value);
+        setRoute(event.target.value);
     }
 
     const onTextChange=(args)=>
@@ -19,33 +26,58 @@ function Login() {
     }
 
     const history=useHistory();
-    const SignIn=()=>{
-        var helper=new XMLHttpRequest();
-        helper.onreadystatechange=()=>{
 
-            if(helper.readyState==4 && helper.status==200)
-            {
-                var responsereceived=JSON.parse(helper.responseText);
-                responsereceived.map((checkCredentials)=>{
-                    console.log(checkCredentials)
-                    if(checkCredentials.email==Credentials.email && checkCredentials.password==Credentials.Password)
+    useEffect(()=>{
+        setTimeout(()=>{
+            setMessage("");
+        },3000);
+    },[message]);
+
+    const SignIn=()=>{
+       // var helper=new XMLHttpRequest();
+       // helper.onreadystatechange=()=>{
+
+         //   if(helper.readyState==4 && helper.status==200)
+           // {
+                // var responsereceived=JSON.parse(helper.responseText);
+                // responsereceived.map((checkCredentials)=>{
+                //     console.log(checkCredentials)
+                    if(Route=="Admin")
                     {
-                        window.sessionStorage.setItem("isLoggedIn","true");
-                        window.sessionStorage.setItem("user_id",checkCredentials.id);
-                        history.push("/Quotes");
+                        // window.sessionStorage.setItem("isLoggedIn","true");
+                        // window.sessionStorage.setItem("user_id",checkCredentials.id);
+                        history.push("/"+Route);
                     }
+                    // if(checkCredentials.email==Credentials.email && checkCredentials.password==Credentials.Password && args.target.value=="Owner")
+                    // {
+                    //     window.sessionStorage.setItem("isLoggedIn","true");
+                    //     window.sessionStorage.setItem("user_id",checkCredentials.id);
+                    //     history.push("/Routes/Owner");
+                    // }
+                    // if(checkCredentials.email==Credentials.email && checkCredentials.password==Credentials.Password && args.target.value=="Tenent")
+                    // {
+                    //     window.sessionStorage.setItem("isLoggedIn","true");
+                    //     window.sessionStorage.setItem("user_id",checkCredentials.id);
+                    //     history.push("/Routes/Tenent");
+                    // }
+                    // if(checkCredentials.email==Credentials.email && checkCredentials.password==Credentials.Password && args.target.value=="Employee")
+                    // {
+                    //     window.sessionStorage.setItem("isLoggedIn","true");
+                    //     window.sessionStorage.setItem("user_id",checkCredentials.id);
+                    //     history.push("/Routes/Employee");
+                    // }
                     else
                     {
-                        console.log("Wrong credentials");
+                        setMessage("Invalid Input!!");
                     }
-                })
+               // })
                 
-            }
+            //}
 
-        }
-        helper.open("GET","http://127.0.0.1:9999/Login");
-        helper.setRequestHeader("Content-Type","application/json");
-        helper.send();
+        //}
+        // helper.open("GET","http://127.0.0.1:9999/Login");
+        // helper.setRequestHeader("Content-Type","application/json");
+        // helper.send();
     }
 
     return (
@@ -81,10 +113,10 @@ function Login() {
                 <br></br>
                 <tr>
                 <select onChange={onOptionChange} className='inputBox'>
-                <option>Please choose one option</option>
+                <option>Select Role</option>
                 {option.map((option,index)=>
                 {
-                    return <option key={index}>
+                    return <option key={index} >
                         {option}
                     </option>
                 })}
@@ -95,16 +127,21 @@ function Login() {
                         <button className='loginButton' onClick={SignIn}>
                             Login
                         </button><br/><br/>
-                        Dont Have Account <Link to={"/Register"}>Register Here</Link>
                     </td>
-                </tr>
+                </tr>   
                 </center>
             </table>
+            
+            <div >
+                <strong style={{color:"red"}}>{message}</strong>
+            </div>
+            
             </center>
             </div>
             </center>
             </div>
             );
 }
+
 
 export default Login;
